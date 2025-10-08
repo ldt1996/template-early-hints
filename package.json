@@ -26,5 +26,6 @@
 	},
 	"dependencies": {
 		"fast-xml-parser": "^5.2.3"
-	}
+	},
+	"license": "Apache-2.0"
 }
