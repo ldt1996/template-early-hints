@@ -18,7 +18,7 @@ The component exposes a **single API endpoint** that accepts a page URL and retu
 4. `npm run build`
 5. `harper run .`
 
-This assumes you have the Harper stack already installed. [Install Harper](https://docs.harper.io/docs/deployments/install-harper) globally.
+This assumes you have the Harper stack already installed. [Install Harper](https://docs.harperdb.io/docs/deployments/install-harper) globally.
 
 ### Deployement
 
