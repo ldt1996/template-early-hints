@@ -1,31 +1,35 @@
 {
-	"name": "early-hints-template",
-	"version": "1.0.0",
-	"description": "Early hints template",
+	"name": "template-early-hints",
+	"version": "2.0.0",
+	"description": "Harper Early Hints Component Template",
 	"type": "module",
+	"author": {
+		"name": "HarperDB, Inc.",
+		"email": "opensource@harperdb.io",
+		"url": "https://harper.fast/"
+	},
 	"scripts": {
-		"generate:types": "graphql-codegen --config codegen.ts",
+		"generate:types": "graphql-codegen --config src/codegen.ts",
 		"build": "tsc",
 		"dev": "tsc; harperdb dev .",
+		"start": "tsc; harperdb run .",
 		"format": "prettier --write .",
-		"postinstall": "npm link harperdb",
-		"postuninstall": "npm link harperdb"
+		"postinstall": "npm link harperdb"
 	},
 	"prettier": "@harperdb/code-guidelines/prettier",
-	"author": "HarperDB, Inc.",
-	"devDependencies": {
-		"@graphql-codegen/cli": "^5.0.3",
-		"@graphql-codegen/typescript": "^4.1.2",
-		"@graphql-codegen/typescript-operations": "^4.4.0",
-		"@harperdb/code-guidelines": "^0.0.2",
-		"@types/node": "^24.0.3",
-		"graphql": "^16.10.0",
-		"prettier": "^3.4.2",
-		"tsx": "^4.19.2",
-		"typescript": "^5.7.2"
-	},
 	"dependencies": {
-		"fast-xml-parser": "^5.2.3"
+		"fast-xml-parser": "5.5.11"
+	},
+	"devDependencies": {
+		"@graphql-codegen/cli": "6.1.1",
+		"@graphql-codegen/typescript": "5.0.7",
+		"@graphql-codegen/typescript-operations": "5.0.7",
+		"@harperdb/code-guidelines": "0.0.6",
+		"@types/node": "^25.0.10",
+		"graphql": "16.12.0",
+		"prettier": "3.8.1",
+		"tsx": "4.21.0",
+		"typescript": "5.9.3"
 	},
 	"license": "Apache-2.0"
 }

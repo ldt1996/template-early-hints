@@ -1,0 +1,24 @@
+[
+	{
+		"cacheKey": "1|https://www.harper.fast/",
+		"hintsVersion": 1,
+		"pageUrl": "https://www.harper.fast/",
+		"hints": [
+			"https://cdn.prod.website-files.com/68bb0738eb2e6c6ef63de53a/68ed19a3b2a794981574f499_Harper%20Blocks%20Hero%20V1%20(1).png"
+		]
+	},
+	{
+		"cacheKey": "1|https://www.harper.fast/resources",
+		"hintsVersion": 1,
+		"pageUrl": "https://www.harper.fast/resources",
+		"hints": [
+			"https://cdn.prod.website-files.com/68bf31b0ba9419cc225e840b/68ee6aa62130c5560e1e9682_Open%20Source%20Announcement%20Hero%20(1).png"
+		]
+	},
+	{
+		"cacheKey": "1|https://www.harper.fast/company",
+		"hintsVersion": 1,
+		"pageUrl": "https://www.harper.fast/company",
+		"hints": ["https://cdn.prod.website-files.com/68bb0738eb2e6c6ef63de53a/68e57930a38950b0239b5c79_Company%20Hero.png"]
+	}
+]

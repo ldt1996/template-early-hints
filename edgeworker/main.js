@@ -1,57 +1,55 @@
 import { httpRequest } from 'http-request';
 import { logger } from 'log';
 
-const HARPER_INSTANCE_APPLICATION_URL = '[YOUR_HARPER_INSTANCE_APPLICATION_URL]';
-const HARPER_INSTANCE_TOKEN = '[YOUR_BASE64_ENCODED_HARPER_USER:PASS]';
-
-const staticPreconnectHosts = [
-	'https://fonts.googleapis.com',
-];
-
-const OPTIONS = {
-	method: 'GET',
-	headers: {
-		'Authorization': `Basic ${HARPER_INSTANCE_TOKEN}`,
-		'Content-Type': 'application/json',
-	},
-	timeout: 250,
-};
+const SUBREQUEST_BASE_URL = ''; // This is typically request.hostname or harper gtm url
+const HARPER_TOKEN = ''; // Base64 encoded Harper user:pass
+const PMUSER_103_HINTS = 'PMUSER_103_HINTS';
 
 export async function onClientRequest(request) {
-	const secFetchMode = request.getHeader('sec-fetch-mode');
-	const hasNavigate = Array.isArray(secFetchMode)
-		? secFetchMode.includes('navigate')
-		: secFetchMode === 'navigate';
-	if (!hasNavigate) {
-		return;
-	}
-
 	try {
-		const encodedPageUrl = encodeURIComponent(`${request.scheme}://${request.host}${request.url}`);
-
-		// For Safari, add static preconnect headers directly since Safari doesn’t support Early Hints. This reduces latency and ensures external resources are preconnected.
-		const safariHints = [];
-		if (request.device.brandName === 'Safari') {
-			staticPreconnectHosts.forEach(host => {
-				safariHints.push(`<${host}>;rel=preconnect;crossorigin`);
-			});
-		}
-
-		if (safariHints.length > 0) {
-			const hintString = safariHints.join(',');
-			request.setVariable('PMUSER_103_HINTS', hintString);
+		const secFetchMode = request.getHeader('sec-fetch-mode');
+		const hasNavigate = Array.isArray(secFetchMode) ? secFetchMode.includes('navigate') : secFetchMode === 'navigate';
+		if (!hasNavigate) {
+			logger.log('Harper skipping non-navigation request');
 			return;
 		}
 
-		const url = `https://${HARPER_INSTANCE_APPLICATION_URL}/hints?q=${encodedPageUrl}`;
+		// Whether device browser is Safari
+		const isSafari = request.device.brandName === 'Safari' ? '1' : '0';
 
-		const response = await httpRequest(url, OPTIONS);
+		// Device type for dynamic image sizing
+		const width = request.device.resolutionWidth || 0;
+
+		const encodedPageUrl = encodeURIComponent(`${request.scheme}://${request.host}${request.path}`);
+		let url = `https://${SUBREQUEST_BASE_URL}/hints?s=${isSafari}&w=${width}`;
+
+		// Extract version query param if present
+		const params = new URLSearchParams(request.query);
+		if (params.has('v')) {
+			url += `&v=${params.get('v')}&q=${encodedPageUrl}`;
+		} else {
+			url += `&q=${encodedPageUrl}`;
+		}
+
+		const response = await httpRequest(url, {
+			method: 'GET',
+			timeout: 250,
+			headers: {
+				'Authorization': `Basic ${HARPER_TOKEN}`,
+				'Content-Type': 'application/json',
+			},
+		});
 
 		if (response.status === 200) {
-			const serialized = await response.json();
-			if (serialized && typeof serialized === 'string') {
-				request.setVariable('PMUSER_103_HINTS', serialized);
+			const data = await response.json();
+			if (typeof data === 'string') {
+				logger.log(`Harper successful hints call for ${request.url}`);
+				request.setVariable(PMUSER_103_HINTS, data);
+			} else {
+				throw new Error('Harper invalid hints response format');
 			}
+		} else {
+			logger.log(`Harper hints call failed: ${response.status}`);
 		}
 	} catch (exception) {
 		logger.log(`Error occured while calling HDB: ${exception.message}`);
