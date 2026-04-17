@@ -1,19 +1,15 @@
-import { databases, logger } from 'harperdb';
+import { databases, logger, server } from 'harperdb';
 import { GetHints } from './hints.js';
-import { ProductImages } from "../types/graphql.js";
+import { type SiteImages } from '../types/graphql.js';
+import seedData from '../../data/seedData.json' with { type: 'json' };
 
-const {
-  ProductImages: ProductImagesTable,
-} = databases.EarlyHints;
+const { SiteImages: SiteImagesTable } = databases.EarlyHints;
 
-import seedData from "./seedData.json" with { type: "json" };
-
-// @ts-ignore
 if (server.workerIndex === 0) {
-  logger.info('Seeding ProductImages Database');
-  seedData.forEach((item: ProductImages) => {
-    ProductImagesTable.put(item);
-  });
+	logger.info('Seeding SiteImages Database');
+	seedData.forEach((item: SiteImages) => {
+		SiteImagesTable.put(item);
+	});
 }
 
 export const hints = GetHints;
