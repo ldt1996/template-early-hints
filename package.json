@@ -1,35 +1,21 @@
 {
-	"name": "template-early-hints",
-	"version": "2.0.0",
-	"description": "Harper Early Hints Component Template",
-	"type": "module",
-	"author": {
-		"name": "HarperDB, Inc.",
-		"email": "opensource@harperdb.io",
-		"url": "https://harper.fast/"
-	},
-	"scripts": {
-		"generate:types": "graphql-codegen --config src/codegen.ts",
-		"build": "tsc",
-		"dev": "tsc; harperdb dev .",
-		"start": "tsc; harperdb run .",
-		"format": "prettier --write .",
-		"postinstall": "npm link harperdb"
-	},
-	"prettier": "@harperdb/code-guidelines/prettier",
-	"dependencies": {
-		"fast-xml-parser": "5.5.11"
-	},
-	"devDependencies": {
-		"@graphql-codegen/cli": "6.1.1",
-		"@graphql-codegen/typescript": "5.0.7",
-		"@graphql-codegen/typescript-operations": "5.0.7",
-		"@harperdb/code-guidelines": "0.0.6",
-		"@types/node": "^25.0.10",
-		"graphql": "16.12.0",
-		"prettier": "3.8.1",
-		"tsx": "4.21.0",
-		"typescript": "5.9.3"
-	},
-	"license": "Apache-2.0"
+  "scripts": {
+    "generate:types": "graphql-codegen --config src/codegen.ts",
+    "build": "tsc",
+    "prepare": "tsc",
+    "dev": "tsc; harperdb dev .",
+    "start": "tsc; harperdb run .",
+    "format": "prettier --write .",
+    "postinstall": "npm link harperdb"
+  },
+  "files": [
+    "dist",
+    "data",
+    "src",
+    "config.yaml",
+    "README.md",
+    "LICENSE",
+    "package.json",
+    "tsconfig.json"
+  ]
 }
