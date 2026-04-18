@@ -14,8 +14,7 @@
     "prepare": "tsc",
     "dev": "tsc; harperdb dev .",
     "start": "tsc; harperdb run .",
-    "format": "prettier --write .",
-    "postinstall": "npm link harperdb"
+    "format": "prettier --write ."
   },
   "files": [
     "dist",
